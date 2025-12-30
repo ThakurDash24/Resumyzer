@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Resume Analysis Report</title>
+
+  <style>
+    /* Reset */
+    body, table, td, a {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #0f172a, #020617);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* Container */
+    .wrapper {
+      width: 100%;
+      padding: 24px 12px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 14px;
+      overflow: hidden;
+      animation: fadeIn 1.2s ease-out forwards;
+    }
+
+    /* Header */
+    .header {
+      padding: 24px;
+      text-align: center;
+      background: rgba(15, 23, 42, 0.85);
+      color: #ffffff;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Content */
+    .content {
+      padding: 24px;
+      color: #0f172a;
+      animation: slideUp 0.9s ease-out forwards;
+    }
+
+    .content p {
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0 0 14px;
+    }
+
+    /* Report box */
+    .report {
+      margin-top: 18px;
+      padding: 16px;
+      background: rgba(241, 245, 249, 0.9);
+      border-left: 4px solid #2563eb;
+      border-radius: 8px;
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      animation: popIn 0.8s ease-out forwards;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: #64748b;
+      background: #f8fafc;
+    }
+
+    /* Animations (email-safe) */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Mobile optimization */
+    @media screen and (max-width: 480px) {
+      .content {
+        padding: 18px;
+      }
+
+      .header h1 {
+        font-size: 20px;
+      }
+
+      .report {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="container">
+      
+      <div class="header">
+        <h1>Resume Analysis Report</h1>
+      </div>
+
+      <div class="content">
+        <p>Hello <strong>{{user_name}}</strong>,</p>
+
+        <p>
+          Your resume analysis is complete. Below is your personalized report:
+        </p>
+
+        <div class="report">
+{{report}}
+        </div>
+
+        <p style="margin-top: 18px;">
+          Thank you for trusting <strong>Resumyzer</strong>.
+        </p>
+      </div>
+
+      <div class="footer">
+        © 2025 Resumyzer · Automated & Confidential
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
