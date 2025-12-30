@@ -1,13 +1,6 @@
 import { useState } from 'react';
-import type { AnalysisResult } from '../types';
+import type { AnalysisResult, AnalysisState } from '../types';
 import { sendAnalysisEmail } from '../services/emailService';
-
-type AnalysisState =
-  | 'idle'
-  | 'uploading'
-  | 'processing'
-  | 'success'
-  | 'error';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
@@ -15,10 +8,12 @@ export function useResumeAnalysis() {
   const [state, setState] = useState<AnalysisState>('idle');
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [emailSent, setEmailSent] = useState(false);
 
   const analyze = async (
     resume: File,
     email: string,
+    phone: string,
     jobRole?: string
   ) => {
     if (!API_BASE) {
@@ -30,11 +25,13 @@ export function useResumeAnalysis() {
     setState('uploading');
     setError(null);
     setResult(null);
+    setEmailSent(false);
 
     try {
       const formData = new FormData();
       formData.append('resume', resume);
       formData.append('email', email);
+      if (phone) formData.append('phone', phone);
       if (jobRole) formData.append('job_role', jobRole);
 
       setState('processing');
@@ -60,16 +57,18 @@ export function useResumeAnalysis() {
       // ✅ EMAIL (FRONTEND-ONLY, NON-BLOCKING)
       sendAnalysisEmail({
         email,
+        phone,
         atsScore: analysis.ats_score,
         summary: analysis.overall_summary,
-      }).catch(() => {
-        console.warn('Email failed but analysis succeeded');
-      });
+      })
+        .then(() => setEmailSent(true))
+        .catch(() => {
+          console.warn('Email failed but analysis succeeded');
+        });
 
-    } catch (err: any) {
-      setError(
-        err?.message || 'No response from server. Please try again.'
-      );
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'No response from server. Please try again.';
+      setError(errorMessage);
       setState('error');
     }
   };
@@ -78,12 +77,14 @@ export function useResumeAnalysis() {
     setState('idle');
     setResult(null);
     setError(null);
+    setEmailSent(false);
   };
 
   return {
     state,
     result,
     error,
+    emailSent,
     analyze,
     reset,
   };

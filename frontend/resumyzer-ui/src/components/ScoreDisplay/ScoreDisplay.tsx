@@ -4,11 +4,12 @@
  */
 
 import React from 'react';
-import type { AnalyzeResumeResponse } from '../../types';
+import type { AnalysisResult } from '../../types';
 import './ScoreDisplay.css';
 
 interface ScoreDisplayProps {
-    result: AnalyzeResumeResponse;
+    result: AnalysisResult;
+    emailSent?: boolean;
     onAnalyzeAnother: () => void;
 }
 
@@ -52,7 +53,7 @@ const getScoreInterpretation = (score: number): ScoreInterpretation => {
     }
 };
 
-export const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ result, onAnalyzeAnother }) => {
+export const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ result, emailSent, onAnalyzeAnother }) => {
     const interpretation = getScoreInterpretation(result.ats_score);
     const scoreAngle = (result.ats_score / 100) * 360;
 
@@ -96,7 +97,7 @@ export const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ result, onAnalyzeAno
                 </div>
 
                 {/* Email Status */}
-                {result.email_sent && (
+                {emailSent && (
                     <div className="score-display__email-status">
                         <span className="score-display__email-icon">📧</span>
                         <span className="score-display__email-text">

@@ -11,14 +11,15 @@ import { ErrorDisplay } from './components/ErrorDisplay/ErrorDisplay';
 import { useResumeAnalysis } from './hooks/useResumeAnalysis';
 
 function App() {
-  const { state, result, error, analyze, reset } = useResumeAnalysis();
+  const { state, result, error, emailSent, analyze, reset } = useResumeAnalysis();
 
   const handleSubmit = async (
     resume: File,
     email: string,
+    phone: string,
     jobRole?: string
   ) => {
-    await analyze(resume, email, jobRole);
+    await analyze(resume, email, phone, jobRole);
   };
 
   return (
@@ -38,6 +39,7 @@ function App() {
       {state === 'success' && result && (
         <ScoreDisplay
           result={result}
+          emailSent={emailSent}
           onAnalyzeAnother={reset}
         />
       )}

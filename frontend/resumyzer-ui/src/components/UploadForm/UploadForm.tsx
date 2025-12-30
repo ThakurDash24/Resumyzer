@@ -9,7 +9,7 @@ import type { FormErrors } from '../../types';
 import './UploadForm.css';
 
 interface UploadFormProps {
-    onSubmit: (resume: File, email: string, jobRole?: string) => void;
+    onSubmit: (resume: File, email: string, phone: string, jobRole?: string) => void;
     isDisabled?: boolean;
 }
 
@@ -28,6 +28,7 @@ const JOB_ROLES = [
 export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = false }) => {
     const [resume, setResume] = useState<File | null>(null);
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [jobRole, setJobRole] = useState('');
     const [errors, setErrors] = useState<FormErrors>({});
 
@@ -52,6 +53,10 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
         }
     };
 
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPhone(e.target.value);
+    };
+
     const handleJobRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setJobRole(e.target.value);
     };
@@ -69,7 +74,7 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
 
         // Submit form
         if (resume) {
-            onSubmit(resume, email, jobRole || undefined);
+            onSubmit(resume, email, phone, jobRole || undefined);
         }
     };
 
@@ -165,6 +170,25 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
                         {errors.email && (
                             <span className="form-error">{errors.email}</span>
                         )}
+                    </div>
+
+                    {/* Phone Input */}
+                    <div className="form-group">
+                        <label htmlFor="phone" className="form-label">
+                            Phone Number (Optional)
+                        </label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            value={phone}
+                            onChange={handlePhoneChange}
+                            placeholder="+1 (555) 000-0000"
+                            className="text-input"
+                            disabled={isDisabled}
+                        />
+                        <span className="form-hint">
+                            For SMS notifications
+                        </span>
                     </div>
 
                     {/* Job Role Selection */}
