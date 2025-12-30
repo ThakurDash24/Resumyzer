@@ -64,7 +64,8 @@ export function useResumeAnalysis() {
           email: targetEmail,
           phone,
           atsScore: analysis.ats_score,
-          summary: analysis.overall_summary,
+          // Backend returns 'summary' in the top-level response, but internal type has 'overall_summary'
+          summary: (analysis as any).summary || analysis.overall_summary,
         })
           .then(() => {
             console.log("Email sent successfully to:", targetEmail);
