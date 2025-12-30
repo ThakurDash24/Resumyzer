@@ -16,6 +16,7 @@ export const sendAnalysisEmail = async (params: {
   }
 
   try {
+    console.log("Sending email with report content:", params.summary);
     await emailjs.send(
       SERVICE_ID,
       TEMPLATE_ID,

@@ -69,7 +69,7 @@ async def analyze_resume(
     # 7️⃣ Respond to frontend (minimal, clean)
     return {
         "ats_score": analysis_result["ats_score"],
-        "summary": analysis_result["overall_summary"],
+        "summary": analysis_result.get("overall_summary") or "Analysis completed successfully. Please check your dashboard for details.",
         "email_status": "handled_by_frontend",
         "extracted_email": final_email
     }
