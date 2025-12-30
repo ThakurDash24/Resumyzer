@@ -18,10 +18,8 @@ export const isValidEmail = (email: string): boolean => {
 export const isValidPDF = (file: File | null): boolean => {
     if (!file) return false;
 
-    // Check file type
     if (file.type !== 'application/pdf') return false;
 
-    // Check file size (max 10MB)
     const maxSize = 10 * 1024 * 1024; // 10MB
     if (file.size > maxSize) return false;
 
@@ -30,14 +28,16 @@ export const isValidPDF = (file: File | null): boolean => {
 
 /**
  * Validates the entire form
- * jobRole is optional (used later for role-based UX / API)
  */
 export const validateForm = (
     resume: File | null,
     email: string,
-    _jobRole?: string
+    jobRole?: string
 ): FormErrors => {
     const errors: FormErrors = {};
+
+    // 🔒 Explicit no-op usage to satisfy TypeScript
+    void jobRole;
 
     // Validate resume
     if (!resume) {
@@ -56,8 +56,6 @@ export const validateForm = (
     } else if (!isValidEmail(email)) {
         errors.email = 'Please enter a valid email address';
     }
-
-    // jobRole intentionally optional (no validation required)
 
     return errors;
 };
