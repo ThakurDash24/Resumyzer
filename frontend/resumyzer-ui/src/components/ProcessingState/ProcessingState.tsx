@@ -76,7 +76,6 @@ export const ProcessingState: React.FC = () => {
             <div className="processing-state__container glass-panel">
                 <div className="processing-state__spinner-container">
                     <div className="processing-state__spinner" role="status" aria-label="Loading" />
-                    <div className="processing-state__logo-mark">R</div>
                 </div>
 
                 <h2 className="processing-state__title">ANALYZING RESUME</h2>

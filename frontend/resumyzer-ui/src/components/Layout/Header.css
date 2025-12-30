@@ -154,9 +154,11 @@
     }
 
     .logo {
-        font-size: 1.2rem;
-        letter-spacing: 0.15em;
-        /* Reduce spacing slightly */
+        font-size: 1.1rem;
+        /* Smaller font to fit screen */
+        letter-spacing: 0.1em;
+        /* Reduce spacing */
+        padding-bottom: 6px;
     }
 
     .header-inner {

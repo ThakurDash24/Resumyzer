@@ -35,13 +35,6 @@
     animation: spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-.processing-state__logo-mark {
-    font-family: 'Cinzel', serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #0f172a;
-}
-
 @keyframes spin {
     to {
         transform: rotate(360deg);

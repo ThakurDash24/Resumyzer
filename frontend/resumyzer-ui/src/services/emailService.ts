@@ -46,21 +46,66 @@ const formatEmailBody = (params: {
   weaknesses?: string[];
   suggestions?: string[];
 }): string => {
-  const separator = "----------------------------------------";
+  // Helper to convert Markdown-style formatting to HTML
+  const formatText = (text: string) => {
+    if (!text) return "";
+    // Bold: **text** -> <strong>text</strong>
+    let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // Italic: *text* -> <em>text</em>
+    formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    return formatted;
+  };
 
-  let body = `SUMMARY\n${separator}\n${(params.summary || "No summary available.").replace(/<[^>]*>?/gm, '')}\n\n`;
+  const sectionStyle = "margin-bottom: 24px;";
+  const headerStyle = "color: #0f172a; font-size: 18px; font-weight: bold; border-bottom: 2px solid #d4af37; padding-bottom: 8px; margin-bottom: 12px; font-family: 'Cinzel', serif;";
+  const listStyle = "padding-left: 20px; margin: 0;";
+  const itemStyle = "margin-bottom: 8px; line-height: 1.5; color: #334155;";
+  const textStyle = "line-height: 1.6; color: #334155;";
 
+  let html = `<div style="font-family: 'Inter', sans-serif; color: #333; max-width: 600px;">`;
+
+  // Summary
+  html += `<div style="${sectionStyle}">`;
+  html += `<h2 style="${headerStyle}">SUMMARY</h2>`;
+  html += `<p style="${textStyle}">${formatText(params.summary || "No summary available.")}</p>`;
+  html += `</div>`;
+
+  // Strengths
   if (params.strengths?.length) {
-    body += `KEY STRENGTHS\n${separator}\n${params.strengths.map(s => `• ${s}`).join('\n')}\n\n`;
+    html += `<div style="${sectionStyle}">`;
+    html += `<h3 style="${headerStyle}">KEY STRENGTHS</h3>`;
+    html += `<ul style="${listStyle}">`;
+    params.strengths.forEach(s => {
+      html += `<li style="${itemStyle}">${formatText(s)}</li>`;
+    });
+    html += `</ul>`;
+    html += `</div>`;
   }
 
+  // Weaknesses
   if (params.weaknesses?.length) {
-    body += `AREAS FOR IMPROVEMENT\n${separator}\n${params.weaknesses.map(s => `• ${s}`).join('\n')}\n\n`;
+    html += `<div style="${sectionStyle}">`;
+    html += `<h3 style="${headerStyle}">AREAS FOR IMPROVEMENT</h3>`;
+    html += `<ul style="${listStyle}">`;
+    params.weaknesses.forEach(s => {
+      html += `<li style="${itemStyle}">${formatText(s)}</li>`;
+    });
+    html += `</ul>`;
+    html += `</div>`;
   }
 
+  // Suggestions
   if (params.suggestions?.length) {
-    body += `RECOMMENDATIONS\n${separator}\n${params.suggestions.map(s => `• ${s}`).join('\n')}`;
+    html += `<div style="${sectionStyle}">`;
+    html += `<h3 style="${headerStyle}">RECOMMENDATIONS</h3>`;
+    html += `<ul style="${listStyle}">`;
+    params.suggestions.forEach(s => {
+      html += `<li style="${itemStyle}">${formatText(s)}</li>`;
+    });
+    html += `</ul>`;
+    html += `</div>`;
   }
 
-  return body;
+  html += `</div>`;
+  return html;
 };
