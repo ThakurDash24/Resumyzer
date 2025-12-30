@@ -53,6 +53,7 @@ async def analyze_resume(
     )
 
     # 6️⃣ Send detailed email report (currently console output)
+    
     send_resume_report(
         email=email,
         analysis=analysis_result,

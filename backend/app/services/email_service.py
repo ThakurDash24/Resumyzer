@@ -1,27 +1,60 @@
 import smtplib
-from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
+from email.mime.multipart import MIMEMultipart
 from app.core.config import settings
-from app.services.email_template_renderer import render_resume_report_html
 
 
 def send_resume_report(email: str, analysis: dict, job_role: str | None):
-    html_body = render_resume_report_html(
-    email=email,
-    analysis=analysis,
-    job_role=job_role
-)
+    """
+    Sends resume analysis email.
+    This function MUST NEVER crash the API.
+    """
 
-    msg = MIMEMultipart("alternative")
-    msg["From"] = settings.SMTP_EMAIL
-    msg["To"] = email
-    msg["Subject"] = f"Your Resume ATS Report – {analysis['ats_score']}/100"
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["From"] = settings.SMTP_EMAIL
+        msg["To"] = email
+        msg["Subject"] = f"Your Resume ATS Report – {analysis['ats_score']}/100"
 
-    msg.attach(MIMEText(html_body, "html"))
+        role_text = job_role if job_role else "General Evaluation"
 
-    server = smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT)
-    server.starttls()
-    server.login(settings.SMTP_EMAIL, settings.SMTP_PASSWORD)
-    server.sendmail(settings.SMTP_EMAIL, email, msg.as_string())
-    server.quit()
+        html_content = f"""
+        <html>
+        <body style="font-family: Arial, sans-serif;">
+            <h2>Resume Analysis Report</h2>
+            <p><b>Target Role:</b> {role_text}</p>
+            <p><b>ATS Score:</b> {analysis['ats_score']} / 100</p>
+
+            <h3>Overall Summary</h3>
+            <p>{analysis['overall_summary']}</p>
+
+            <h3>Strengths</h3>
+            <ul>
+                {''.join(f"<li>{s}</li>" for s in analysis.get("strengths", []))}
+            </ul>
+
+            <h3>Improvement Suggestions</h3>
+            <ul>
+                {''.join(f"<li>{s}</li>" for s in analysis.get("improvement_suggestions", []))}
+            </ul>
+
+            <p style="margin-top:20px;">
+                — ResumyZer
+            </p>
+        </body>
+        </html>
+        """
+
+        msg.attach(MIMEText(html_content, "html"))
+
+        # ✅ USE SSL (Render allows this)
+        with smtplib.SMTP_SSL(settings.SMTP_HOST, settings.SMTP_PORT) as server:
+            server.login(settings.SMTP_EMAIL, settings.SMTP_PASSWORD)
+            server.send_message(msg)
+
+        print("📩 Email sent successfully")
+
+    except Exception as e:
+        # 🚨 NEVER crash API
+        print("⚠️ Email failed but API continues")
+        print(str(e))
