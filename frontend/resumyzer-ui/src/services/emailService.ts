@@ -9,6 +9,9 @@ export const sendAnalysisEmail = async (params: {
   phone?: string;
   atsScore: number;
   summary: string;
+  strengths?: string[];
+  weaknesses?: string[];
+  suggestions?: string[];
 }) => {
   if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
     console.warn('EmailJS not configured');
@@ -23,7 +26,7 @@ export const sendAnalysisEmail = async (params: {
       {
         to_email: params.email,
         user_name: params.email.split('@')[0],
-        report: (params.summary || "No summary available.").replace(/<[^>]*>?/gm, ''), // Strip HTML tags
+        report: formatEmailBody(params),
         ats_score: params.atsScore, // Keep this if you add {{ats_score}} later
       },
       PUBLIC_KEY
@@ -35,4 +38,27 @@ export const sendAnalysisEmail = async (params: {
     }
     throw error;
   }
+};
+
+const formatEmailBody = (params: {
+  summary: string;
+  strengths?: string[];
+  weaknesses?: string[];
+  suggestions?: string[];
+}): string => {
+  let body = `SUMMARY\n${(params.summary || "No summary available.").replace(/<[^>]*>?/gm, '')}\n\n`;
+
+  if (params.strengths?.length) {
+    body += `KEY STRENGTHS\n${params.strengths.map(s => `• ${s}`).join('\n')}\n\n`;
+  }
+
+  if (params.weaknesses?.length) {
+    body += `AREAS FOR IMPROVEMENT\n${params.weaknesses.map(s => `• ${s}`).join('\n')}\n\n`;
+  }
+
+  if (params.suggestions?.length) {
+    body += `RECOMMENDATIONS\n${params.suggestions.map(s => `• ${s}`).join('\n')}`;
+  }
+
+  return body;
 };
