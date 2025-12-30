@@ -21,8 +21,8 @@ export const sendAnalysisEmail = async (params: {
       TEMPLATE_ID,
       {
         to_email: params.email,
-        user_name: params.email.split('@')[0], // Extract name from email as fallback
-        report: params.summary, // Map summary to {{report}}
+        user_name: params.email.split('@')[0],
+        report: (params.summary || "No summary available.").replace(/<[^>]*>?/gm, ''), // Strip HTML tags
         ats_score: params.atsScore, // Keep this if you add {{ats_score}} later
       },
       PUBLIC_KEY
