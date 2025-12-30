@@ -11,7 +11,10 @@ app = FastAPI(
 # CORS (adjust origins later)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # later restrict to frontend URL
+    allow_origins=[
+    "https://resumyzer-24.vercel.app",
+    "https://resumyzer-24-git-main-thakur-dashs-projects.vercel.app"
+]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
