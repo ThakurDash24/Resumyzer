@@ -8,4 +8,5 @@ export interface AnalysisResult {
   structure_feedback: string[];
   final_recommendation: string;
   is_fallback?: boolean;
+  extracted_email?: string;
 }

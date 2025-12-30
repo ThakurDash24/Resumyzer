@@ -152,8 +152,8 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
 
                     {/* Email Input */}
                     <div className="form-group">
-                        <label htmlFor="email" className="form-label form-label--required">
-                            Email Address
+                        <label htmlFor="email" className="form-label">
+                            Email Address (Optional)
                         </label>
                         <input
                             type="email"

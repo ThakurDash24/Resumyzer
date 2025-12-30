@@ -1,4 +1,5 @@
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
+import re
 
 from app.services.pdf_service import extract_text_from_pdf
 from app.services.gemini_service import analyze_resume_with_gemini
@@ -14,7 +15,7 @@ router = APIRouter()
 @router.post("/analyze-resume", response_model=ResumeAnalysisResponse)
 async def analyze_resume(
     resume: UploadFile = File(...),
-    email: str = Form(...),
+    email: str | None = Form(None),
     job_role: str | None = Form(None),
 ):
     # 1️⃣ Validate file
@@ -35,6 +36,16 @@ async def analyze_resume(
             detail="Resume content too short for analysis"
         )
 
+    # 2.5️⃣ Extract email if missing
+    final_email = email
+    if not final_email:
+        # Simple regex for email extraction
+        email_match = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', resume_text)
+        if email_match:
+            final_email = email_match.group(0)
+        else:
+            final_email = "unknown@example.com"
+
     # 3️⃣ AI Analysis (Gemini)
     analysis_result = analyze_resume_with_gemini(
         resume_text=resume_text,
@@ -44,27 +55,21 @@ async def analyze_resume(
     # 4️⃣ Generate resume hash (for dedup / analytics)
     resume_hash = generate_resume_hash(resume_text)
 
-    # 5️⃣ Store analysis in Supabase  ✅ THIS WAS MISSING EARLIER
+    # 5️⃣ Store analysis in Supabase
     store_resume_analysis(
-        email=email,
+        email=final_email,
         job_role=job_role,
         analysis=analysis_result,
         resume_hash=resume_hash
     )
 
-    # 6️⃣ Send detailed email report (currently console output)
-    
     # 6️⃣ Send detailed email report
     # Backend email sending is DISABLED. Frontend handles this via EmailJS.
-    # send_resume_report(
-    #     email=email,
-    #     analysis=analysis_result,
-    #     job_role=job_role
-    # )
 
     # 7️⃣ Respond to frontend (minimal, clean)
     return {
         "ats_score": analysis_result["ats_score"],
         "summary": analysis_result["overall_summary"],
-        "email_status": "handled_by_frontend"
+        "email_status": "handled_by_frontend",
+        "extracted_email": final_email
     }

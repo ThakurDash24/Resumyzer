@@ -50,10 +50,8 @@ export const validateForm = (
         }
     }
 
-    // Validate email
-    if (!email.trim()) {
-        errors.email = 'Email is required';
-    } else if (!isValidEmail(email)) {
+    // Validate email (Optional now)
+    if (email.trim() && !isValidEmail(email)) {
         errors.email = 'Please enter a valid email address';
     }
 

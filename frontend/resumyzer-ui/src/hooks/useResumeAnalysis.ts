@@ -55,20 +55,27 @@ export function useResumeAnalysis() {
       setState('success');
 
       // ✅ EMAIL (FRONTEND-ONLY, NON-BLOCKING)
-      // We don't await this to keep UI snappy, but we catch errors
-      sendAnalysisEmail({
-        email,
-        phone,
-        atsScore: analysis.ats_score,
-        summary: analysis.overall_summary,
-      })
-        .then(() => {
-          console.log("Email sent successfully!");
-          setEmailSent(true);
+      // Determine target email: user input > extracted from resume
+      const targetEmail = email || analysis.extracted_email;
+
+      if (targetEmail) {
+        // We don't await this to keep UI snappy, but we catch errors
+        sendAnalysisEmail({
+          email: targetEmail,
+          phone,
+          atsScore: analysis.ats_score,
+          summary: analysis.overall_summary,
         })
-        .catch((err) => {
-          console.warn('Email failed but analysis succeeded', err);
-        });
+          .then(() => {
+            console.log("Email sent successfully to:", targetEmail);
+            setEmailSent(true);
+          })
+          .catch((err) => {
+            console.warn('Email failed but analysis succeeded', err);
+          });
+      } else {
+        console.warn('No email provided or extracted. Skipping email report.');
+      }
 
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'No response from server. Please try again.';

@@ -4,3 +4,4 @@ class ResumeAnalysisResponse(BaseModel):
     ats_score: int
     summary: str
     email_status: str
+    extracted_email: str | None = None

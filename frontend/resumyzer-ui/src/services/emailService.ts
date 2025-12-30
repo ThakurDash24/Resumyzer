@@ -20,10 +20,10 @@ export const sendAnalysisEmail = async (params: {
       SERVICE_ID,
       TEMPLATE_ID,
       {
-        user_email: params.email,
-        user_phone: params.phone,
-        ats_score: params.atsScore,
-        summary: params.summary,
+        to_email: params.email,
+        user_name: params.email.split('@')[0], // Extract name from email as fallback
+        report: params.summary, // Map summary to {{report}}
+        ats_score: params.atsScore, // Keep this if you add {{ats_score}} later
       },
       PUBLIC_KEY
     );
