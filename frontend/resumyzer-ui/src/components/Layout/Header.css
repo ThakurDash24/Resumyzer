@@ -1,0 +1,165 @@
+/* Header.css */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 9999;
+    /* Max priority */
+
+    /* Dark Glass Effect - Like the demo photo */
+    background: rgba(15, 23, 42, 0.85);
+    /* Dark Navy/Black tint */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Scrolled State - Slightly darker/compact */
+.main-header.scrolled {
+    height: 70px;
+    background: rgba(15, 23, 42, 0.95);
+    /* More opaque on scroll */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.header-inner {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 24px;
+    display: flex;
+    justify-content: center;
+    /* Always center the logo */
+    align-items: center;
+    position: relative;
+    /* Allow absolute positioning of children */
+}
+
+.theme-toggle {
+    position: absolute;
+    right: 24px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #ffffff;
+    font-size: 1.2rem;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #d4af37;
+    color: #d4af37;
+    transform: rotate(15deg);
+}
+
+.logo {
+    font-family: "Cinzel", serif;
+    letter-spacing: 0.2em;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #ffffff;
+    /* White text for contrast on dark header */
+    text-transform: uppercase;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.6s ease;
+    /* Slower transition */
+    position: relative;
+    padding-bottom: 8px;
+    cursor: pointer;
+}
+
+.logo:hover {
+    color: #d4af37;
+    /* Gold */
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+    /* Golden glow */
+}
+
+/* Gold Underline */
+.logo::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 1px;
+    background-color: #d4af37;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    transition: all 0.6s ease;
+    /* Sync with text */
+}
+
+.logo:hover::after {
+    background-color: #ffd700;
+    /* Brighter gold */
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 10px rgba(212, 175, 55, 0.6);
+    /* Stronger glow */
+    width: 140px;
+    /* Expand slightly on hover for effect */
+}
+
+.main-header.scrolled .logo {
+    font-size: 1.5rem;
+    color: #e2e8f0;
+    /* Slightly softer white on scroll */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .main-header {
+        height: 60px;
+    }
+
+    .main-header.scrolled {
+        height: 60px;
+        /* Keep consistent height on mobile */
+    }
+
+    .logo {
+        font-size: 1.4rem;
+        padding-bottom: 6px;
+    }
+
+    .logo::after {
+        width: 70px;
+    }
+
+    .main-header.scrolled .logo {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-header {
+        height: 56px;
+    }
+
+    .main-header.scrolled {
+        height: 56px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+        letter-spacing: 0.15em;
+        /* Reduce spacing slightly */
+    }
+
+    .header-inner {
+        padding: 0 16px;
+    }
+}

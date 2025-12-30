@@ -1,0 +1,166 @@
+/* Luxury Light Theme Variables */
+:root {
+    --color-bg-primary: #e0f2fe;
+    --color-bg-secondary: #f0f9ff;
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #64748b;
+    --color-accent: #d4af37;
+    /* Gold */
+    --color-accent-glow: rgba(212, 175, 55, 0.3);
+
+    --font-heading: 'Cinzel', serif;
+    --font-body: 'Inter', sans-serif;
+
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    --glass-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.02),
+        0 2px 4px -1px rgba(0, 0, 0, 0.02),
+        inset 0 0 20px rgba(255, 255, 255, 0.5);
+
+    --tile-hover-shadow:
+        0 20px 40px rgba(56, 189, 248, 0.15),
+        0 0 0 1px rgba(212, 175, 55, 0.3);
+}
+
+body {
+    background: linear-gradient(120deg, #e0f2fe 0%, #f0f9ff 50%, #bae6fd 100%);
+    background-size: 200% 200%;
+    animation: floatBackground 15s ease infinite;
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+@keyframes floatBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+}
+
+/* Premium Glass Panel */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 24px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Reduced Inner Glow Logic (Blue & Gold) */
+.glass-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Reduced opacity from 0.1 to 0.05 for subtle effect */
+    background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y),
+            rgba(56, 189, 248, 0.05),
+            /* Very subtle blue */
+            transparent 40%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Border Gradient Effect */
+.glass-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 1px;
+    background: linear-gradient(45deg,
+            transparent,
+            rgba(212, 175, 55, 0.0),
+            transparent);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    transition: all 0.5s ease;
+}
+
+.glass-panel:hover {
+    transform: translateY(-5px) scale(1.005);
+    box-shadow: var(--tile-hover-shadow);
+    border-color: rgba(255, 255, 255, 0.9);
+}
+
+.glass-panel:hover::before {
+    opacity: 1;
+}
+
+.glass-panel:hover::after {
+    background: linear-gradient(45deg,
+            rgba(56, 189, 248, 0.3),
+            rgba(212, 175, 55, 0.5),
+            rgba(56, 189, 248, 0.3));
+}
+
+/* Button Luxury Style */
+.btn-luxury {
+    background: linear-gradient(45deg, #0f172a, #334155);
+    color: #ffffff;
+    border: none;
+    padding: 16px 40px;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50px;
+}
+
+.btn-luxury::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+    transition: 0.5s;
+}
+
+.btn-luxury:hover::after {
+    left: 100%;
+}
+
+.btn-luxury:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2);
+}

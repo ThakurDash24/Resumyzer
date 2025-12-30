@@ -1,0 +1,112 @@
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease-out, visibility 0.8s ease-out, background-color 0.3s ease;
+    margin: 0;
+    /* Reset margin */
+    padding: 0;
+    /* Reset padding */
+}
+
+/* Dark Mode Support via specific class */
+.loading-screen.dark-mode {
+    background-color: #050505;
+    /* Match luxury background */
+}
+
+.loading-screen.dark-mode .loading-screen__title {
+    background: linear-gradient(45deg, #ffffff, #e2e8f0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.loading-screen.dark-mode .loading-screen__subtitle {
+    color: #e2e8f0;
+}
+
+.loading-screen--hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loading-screen__content {
+    text-align: center;
+}
+
+.loading-screen__title {
+    font-family: 'Cinzel', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    color: #0f172a;
+    /* Deep Navy */
+    letter-spacing: 0.2em;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards 0.3s;
+    background: linear-gradient(45deg, #0f172a, #334155);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.loading-screen__subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: #94a3b8;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards 0.8s;
+}
+
+.loading-screen__gold-text {
+    display: inline-block;
+    color: #94a3b8;
+    /* Start matching subtitle */
+    animation: fadeToGold 2s ease-out forwards 1.2s;
+    /* Start after subtitle appears */
+}
+
+.loading-screen__line {
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    /* Gold gradient */
+    margin: 2rem auto 0;
+    animation: expandLine 1.5s ease-out forwards 1s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes expandLine {
+    to {
+        width: 100px;
+    }
+}
+
+@keyframes fadeToGold {
+    100% {
+        color: #d4af37;
+        text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+}

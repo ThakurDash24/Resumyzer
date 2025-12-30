@@ -12,19 +12,27 @@ export const ProcessingState: React.FC = () => {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        // Calculate total duration
+        // Calculate total duration based on messages
         const totalDuration = PROCESSING_MESSAGES.reduce(
             (sum, msg) => sum + msg.duration,
             0
         );
 
         // Progress bar animation
+        // We want to reach 96% over the course of the messages
+        // Then stall until the actual process completes
+        const targetProgress = 96;
+        const updateInterval = 100; // Update every 100ms
+        const steps = totalDuration / updateInterval;
+        const incrementPerStep = targetProgress / steps;
+
         const progressInterval = setInterval(() => {
             setProgress((prev) => {
-                if (prev >= 95) return prev;
-                return prev + (100 / totalDuration) * 100;
+                // Stop at 96% and wait for actual completion
+                if (prev >= 96) return 96;
+                return Math.min(prev + incrementPerStep, 96);
             });
-        }, 100);
+        }, updateInterval);
 
         // Message cycling
         let messageTimeout: number;
@@ -65,12 +73,16 @@ export const ProcessingState: React.FC = () => {
 
     return (
         <div className="processing-state">
-            <div className="processing-state__container">
-                <div className="processing-state__spinner" role="status" aria-label="Loading" />
+            <div className="processing-state__container glass-panel">
+                <div className="processing-state__spinner-container">
+                    <div className="processing-state__spinner" role="status" aria-label="Loading" />
+                    <div className="processing-state__logo-mark">R</div>
+                </div>
 
-                <h2 className="processing-state__title">Analyzing Your Resume</h2>
+                <h2 className="processing-state__title">ANALYZING RESUME</h2>
+                <div className="processing-state__divider"></div>
                 <p className="processing-state__subtitle">
-                    This may take a few moments. Please don't close this window.
+                    Our AI is reviewing your experience and skills
                 </p>
 
                 <div className="processing-state__messages">
@@ -78,7 +90,7 @@ export const ProcessingState: React.FC = () => {
                         key={currentMessage.id}
                         className="processing-state__message"
                         style={{
-                            animation: `fadeInOut ${currentMessage.duration}ms var(--fade-timing)`,
+                            animation: `fadeInOut ${currentMessage.duration}ms ease-in-out`,
                         }}
                     >
                         {currentMessage.text}
@@ -93,7 +105,7 @@ export const ProcessingState: React.FC = () => {
                         />
                     </div>
                     <p className="processing-state__progress-text">
-                        {Math.round(progress)}% complete
+                        {Math.round(progress)}% COMPLETE
                     </p>
                 </div>
             </div>

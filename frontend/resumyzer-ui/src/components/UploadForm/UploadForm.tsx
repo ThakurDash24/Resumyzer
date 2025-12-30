@@ -3,7 +3,7 @@
  * Handles resume upload, email input, and job role selection
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { validateForm, formatFileSize } from '../../utils/validation';
 import type { FormErrors } from '../../types';
 import './UploadForm.css';
@@ -33,6 +33,24 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
     const [errors, setErrors] = useState<FormErrors>({});
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
+
+    // Mouse tracking for glass panels
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            const panels = document.querySelectorAll('.glass-panel');
+            panels.forEach((panel) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                (panel as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
+                (panel as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
+            });
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
@@ -83,148 +101,162 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
     };
 
     return (
-        <div className="upload-form">
-            <h2 className="upload-form__title">Analyze Your Resume</h2>
-            <p className="upload-form__description">
-                Upload your resume and get instant ATS compatibility score with detailed feedback
-            </p>
+        <div className="upload-page">
+            <header className="upload-page__header">
+                <h2 className="upload-page__title">Analyze Your Resume</h2>
+                <p className="upload-page__subtitle">
+                    Unlock your potential with AI-driven insights.
+                </p>
+            </header>
 
-            <div className="upload-form__card">
-                <form onSubmit={handleSubmit}>
-                    {/* Resume Upload */}
-                    <div className="form-group">
-                        <label className="form-label form-label--required">
-                            Resume (PDF)
-                        </label>
+            <form ref={formRef} onSubmit={handleSubmit} className="upload-page__form">
 
-                        <div className="file-upload">
-                            <input
-                                ref={fileInputRef}
-                                type="file"
-                                accept=".pdf"
-                                onChange={handleFileChange}
-                                className="file-upload__input"
-                                id="resume-upload"
-                                disabled={isDisabled}
-                            />
+                {/* Section 1: Resume Upload */}
+                <div className="section-wrapper">
+                    <h3 className="section-title">01. Upload Resume</h3>
+                    <section className="form-section glass-panel">
+                        <div className="form-group">
+                            <div className="file-upload">
+                                <input
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept=".pdf"
+                                    onChange={handleFileChange}
+                                    className="file-upload__input"
+                                    id="resume-upload"
+                                    disabled={isDisabled}
+                                />
 
-                            <div
-                                className={`file-upload__label ${resume ? 'file-upload__label--has-file' : ''
-                                    } ${errors.resume ? 'file-upload__label--error' : ''}`}
-                                onClick={handleLabelClick}
-                                role="button"
-                                tabIndex={0}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                        handleLabelClick();
-                                    }
-                                }}
-                            >
-                                {resume ? (
-                                    <>
-                                        <div className="file-upload__icon">📄</div>
-                                        <div className="file-upload__filename">{resume.name}</div>
-                                        <div className="file-upload__filesize">
-                                            {formatFileSize(resume.size)}
-                                        </div>
-                                        <div className="file-upload__subtext" style={{ marginTop: '8px' }}>
-                                            Click to change file
-                                        </div>
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="file-upload__icon">📤</div>
-                                        <div className="file-upload__text">
-                                            Click to upload or drag and drop
-                                        </div>
-                                        <div className="file-upload__subtext">
-                                            PDF only (Max 10MB)
-                                        </div>
-                                    </>
+                                <div
+                                    className={`file-upload__label ${resume ? 'file-upload__label--has-file' : ''
+                                        } ${errors.resume ? 'file-upload__label--error' : ''}`}
+                                    onClick={handleLabelClick}
+                                    role="button"
+                                    tabIndex={0}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            handleLabelClick();
+                                        }
+                                    }}
+                                >
+                                    {resume ? (
+                                        <>
+                                            <div className="file-upload__icon">📄</div>
+                                            <div className="file-upload__filename">{resume.name}</div>
+                                            <div className="file-upload__filesize">
+                                                {formatFileSize(resume.size)}
+                                            </div>
+                                            <div className="file-upload__subtext" style={{ marginTop: '8px' }}>
+                                                Click to change file
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {/* Removed emoji as requested */}
+                                            <div className="file-upload__text">
+                                                Click to upload or drag and drop
+                                            </div>
+                                            <div className="file-upload__subtext">
+                                                PDF only (Max 10MB)
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                            {errors.resume && (
+                                <span className="form-error">{errors.resume}</span>
+                            )}
+                        </div>
+                    </section>
+                </div>
+
+                {/* Section 2: Contact Information */}
+                <div className="section-wrapper">
+                    <h3 className="section-title">02. Contact Details</h3>
+                    <section className="form-section glass-panel">
+                        <div className="form-grid">
+                            <div className="form-group">
+                                <label htmlFor="email" className="form-label">
+                                    Email Address (Optional)
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    value={email}
+                                    onChange={handleEmailChange}
+                                    placeholder="your.email@example.com"
+                                    className={`form-input ${errors.email ? 'text-input--error' : ''}`}
+                                    disabled={isDisabled}
+                                />
+                                <span className="form-hint">
+                                    We'll send your detailed report here.
+                                </span>
+                                {errors.email && (
+                                    <span className="form-error">{errors.email}</span>
                                 )}
                             </div>
+
+                            <div className="form-group">
+                                <label htmlFor="phone" className="form-label">
+                                    Phone Number (Optional)
+                                </label>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    value={phone}
+                                    onChange={handlePhoneChange}
+                                    placeholder="+1 (555) 000-0000"
+                                    className="form-input"
+                                    disabled={isDisabled}
+                                />
+                            </div>
                         </div>
+                    </section>
+                </div>
 
-                        {errors.resume && (
-                            <span className="form-error">{errors.resume}</span>
-                        )}
-                    </div>
+                {/* Section 3: Professional Details */}
+                <div className="section-wrapper">
+                    <h3 className="section-title">03. Professional Role</h3>
+                    <section className="form-section glass-panel">
+                        <div className="form-group">
+                            <label htmlFor="job-role" className="form-label">
+                                Target Job Role (Optional)
+                            </label>
+                            <div className="select-wrapper">
+                                <select
+                                    id="job-role"
+                                    value={jobRole}
+                                    onChange={handleJobRoleChange}
+                                    className="form-input form-select"
+                                    disabled={isDisabled}
+                                >
+                                    <option value="">Select a role...</option>
+                                    {JOB_ROLES.map((role) => (
+                                        <option key={role} value={role}>
+                                            {role}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <span className="form-hint">
+                                Helps us provide role-specific recommendations.
+                            </span>
+                        </div>
+                    </section>
+                </div>
 
-                    {/* Email Input */}
-                    <div className="form-group">
-                        <label htmlFor="email" className="form-label">
-                            Email Address (Optional)
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={handleEmailChange}
-                            placeholder="your.email@example.com"
-                            className={`text-input ${errors.email ? 'text-input--error' : ''}`}
-                            disabled={isDisabled}
-                        />
-                        <span className="form-hint">
-                            We'll send your detailed report to this email
-                        </span>
-                        {errors.email && (
-                            <span className="form-error">{errors.email}</span>
-                        )}
-                    </div>
-
-                    {/* Phone Input */}
-                    <div className="form-group">
-                        <label htmlFor="phone" className="form-label">
-                            Phone Number (Optional)
-                        </label>
-                        <input
-                            type="tel"
-                            id="phone"
-                            value={phone}
-                            onChange={handlePhoneChange}
-                            placeholder="+1 (555) 000-0000"
-                            className="text-input"
-                            disabled={isDisabled}
-                        />
-                        <span className="form-hint">
-                            For SMS notifications
-                        </span>
-                    </div>
-
-                    {/* Job Role Selection */}
-                    <div className="form-group">
-                        <label htmlFor="job-role" className="form-label">
-                            Target Job Role (Optional)
-                        </label>
-                        <select
-                            id="job-role"
-                            value={jobRole}
-                            onChange={handleJobRoleChange}
-                            className="select-input"
-                            disabled={isDisabled}
-                        >
-                            <option value="">Select a role...</option>
-                            {JOB_ROLES.map((role) => (
-                                <option key={role} value={role}>
-                                    {role}
-                                </option>
-                            ))}
-                        </select>
-                        <span className="form-hint">
-                            Help us provide role-specific recommendations
-                        </span>
-                    </div>
-
-                    {/* Submit Button */}
+                {/* Submit Action */}
+                <div className="form-actions">
                     <button
                         type="submit"
-                        className="submit-button"
-                        disabled={isDisabled}
+                        className="submit-btn btn-luxury"
+                        disabled={isDisabled || Object.keys(errors).length > 0}
                     >
-                        Analyze Resume
+                        {isDisabled ? 'Analyzing...' : 'Analyze Resume'}
                     </button>
-                </form>
-            </div>
+                </div>
+
+            </form>
         </div>
     );
 };

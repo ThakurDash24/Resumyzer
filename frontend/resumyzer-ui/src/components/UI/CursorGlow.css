@@ -1,0 +1,14 @@
+.cursor-glow {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    /* Extremely subtle/invisible global glow */
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.01) 0%, rgba(56, 189, 248, 0) 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: normal;
+    transition: width 0.3s ease, height 0.3s ease;
+    filter: blur(80px);
+}

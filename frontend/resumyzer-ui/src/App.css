@@ -1,0 +1,151 @@
+.app-content {
+    opacity: 0;
+    filter: blur(20px);
+    transform: scale(0.95);
+    transition: opacity 1.2s ease-out, filter 1.2s ease-out, transform 1.2s ease-out;
+    will-change: opacity, filter, transform;
+}
+
+.app-content--visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+    /* Critical: allows position:fixed to work relative to viewport */
+}
+
+/* --- Dark Mode Global Overrides --- */
+.dark-mode {
+    color: #ffffff;
+}
+
+/* Transparent Tiles & Cards */
+.dark-mode .score-display__card,
+.dark-mode .processing-state__container,
+.dark-mode .error-display__card,
+.dark-mode .file-upload__label,
+.dark-mode .form-section {
+    background: transparent;
+    /* Completely transparent */
+    backdrop-filter: none;
+    /* Remove blur to avoid gray haze */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    /* Subtle white border */
+    box-shadow: none;
+    transition: all 0.4s ease;
+    color: #ffffff;
+    border-radius: 24px;
+    /* Ensure rounded corners */
+}
+
+/* Hover Glow Effect - Golden Border Shine */
+.dark-mode .score-display__card:hover,
+.dark-mode .processing-state__container:hover,
+.dark-mode .error-display__card:hover,
+.dark-mode .file-upload__label:hover,
+.dark-mode .form-section:hover {
+    border-color: #d4af37;
+    /* Gold border */
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2), inset 0 0 10px rgba(212, 175, 55, 0.05);
+    /* Golden glow */
+    transform: translateY(-2px);
+    background: rgba(212, 175, 55, 0.02);
+    /* Very faint gold tint */
+}
+
+/* Inputs - Clean & Visible */
+.dark-mode .form-input {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    backdrop-filter: none;
+}
+
+.dark-mode .form-input:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    background: transparent;
+}
+
+/* Titles & Headings */
+.dark-mode .upload-page__title,
+.dark-mode .score-display__title,
+.dark-mode .processing-state__title,
+.dark-mode .error-display__title,
+.dark-mode .section-title,
+.dark-mode .loading-screen__title,
+.dark-mode .score-display__interpretation-title {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .upload-page__title {
+    background: linear-gradient(45deg, #ffffff, #e2e8f0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Subtitles & Body Text - High Contrast */
+.dark-mode .upload-page__subtitle,
+.dark-mode .score-display__subtitle,
+.dark-mode .processing-state__subtitle,
+.dark-mode .error-display__message,
+.dark-mode .form-label,
+.dark-mode .file-upload__text,
+.dark-mode .file-upload__subtext,
+.dark-mode .layout__footer-credit,
+.dark-mode .layout__footer-link,
+.dark-mode .score-display__interpretation-text,
+.dark-mode .processing-state__message {
+    color: #e2e8f0;
+    /* Lighter gray for better visibility */
+}
+
+.dark-mode .form-input::placeholder {
+    color: #64748b;
+}
+
+/* Footer */
+.dark-mode .layout__footer-name {
+    color: #ffffff;
+}
+
+.dark-mode .layout__footer {
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
+    border-top-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Score Circle */
+.dark-mode .score-display__score-value {
+    color: #ffffff;
+}
+
+.dark-mode .score-display__score-label {
+    color: #cbd5e1;
+}
+
+.dark-mode .score-display__interpretation {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Processing State */
+.dark-mode .processing-state__logo-mark {
+    color: #ffffff;
+}
+
+.dark-mode .processing-state__progress-fill {
+    background: #d4af37;
+    /* Gold progress */
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.dark-mode .processing-state__spinner {
+    border-color: rgba(255, 255, 255, 0.1);
+    border-top-color: #d4af37;
+}
+
+/* Section Titles Border */
+.dark-mode .section-title {
+    border-left-color: #d4af37;
+}
