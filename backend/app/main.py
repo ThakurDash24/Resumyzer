@@ -14,7 +14,8 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:3000",
-        "https://resumyzer-ui.vercel.app",  # frontend prod
+        "https://resumyzer-ui.vercel.app",
+        "https://resumyzer-24.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
