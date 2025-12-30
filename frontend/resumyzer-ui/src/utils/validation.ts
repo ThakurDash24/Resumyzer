@@ -22,7 +22,7 @@ export const isValidPDF = (file: File | null): boolean => {
     if (file.type !== 'application/pdf') return false;
 
     // Check file size (max 10MB)
-    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+    const maxSize = 10 * 1024 * 1024; // 10MB
     if (file.size > maxSize) return false;
 
     return true;
@@ -30,11 +30,12 @@ export const isValidPDF = (file: File | null): boolean => {
 
 /**
  * Validates the entire form
+ * jobRole is optional (used later for role-based UX / API)
  */
 export const validateForm = (
     resume: File | null,
     email: string,
-    jobRole: string
+    _jobRole?: string
 ): FormErrors => {
     const errors: FormErrors = {};
 
@@ -56,7 +57,7 @@ export const validateForm = (
         errors.email = 'Please enter a valid email address';
     }
 
-    // Job role is optional, no validation needed
+    // jobRole intentionally optional (no validation required)
 
     return errors;
 };
@@ -71,5 +72,5 @@ export const formatFileSize = (bytes: number): string => {
     const sizes = ['Bytes', 'KB', 'MB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
 };
