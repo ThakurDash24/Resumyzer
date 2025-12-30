@@ -54,15 +54,17 @@ async def analyze_resume(
 
     # 6️⃣ Send detailed email report (currently console output)
     
-    send_resume_report(
-        email=email,
-        analysis=analysis_result,
-        job_role=job_role
-    )
+    # 6️⃣ Send detailed email report
+    # Backend email sending is DISABLED. Frontend handles this via EmailJS.
+    # send_resume_report(
+    #     email=email,
+    #     analysis=analysis_result,
+    #     job_role=job_role
+    # )
 
     # 7️⃣ Respond to frontend (minimal, clean)
     return {
         "ats_score": analysis_result["ats_score"],
         "summary": analysis_result["overall_summary"],
-        "email_status": "sent"
+        "email_status": "handled_by_frontend"
     }

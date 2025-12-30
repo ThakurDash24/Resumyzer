@@ -11,6 +11,10 @@ def send_resume_report(email: str, analysis: dict, job_role: str | None):
     """
 
     try:
+        if not settings.SMTP_HOST or not settings.SMTP_EMAIL:
+            print("⚠️ SMTP settings not configured. Skipping backend email.")
+            return
+
         msg = MIMEMultipart("alternative")
         msg["From"] = settings.SMTP_EMAIL
         msg["To"] = email

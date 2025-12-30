@@ -18,10 +18,11 @@ class Settings(BaseSettings):
         extra = "forbid"  # keep strict
     
     # SMTP (Gmail)
-    SMTP_EMAIL: str
-    SMTP_PASSWORD: str
-    SMTP_HOST: str
-    SMTP_PORT: int
+    # SMTP (Gmail) - Optional if frontend handles email
+    SMTP_EMAIL: str | None = None
+    SMTP_PASSWORD: str | None = None
+    SMTP_HOST: str | None = None
+    SMTP_PORT: int | None = None
 
 
 settings = Settings()
