@@ -46,18 +46,20 @@ const formatEmailBody = (params: {
   weaknesses?: string[];
   suggestions?: string[];
 }): string => {
-  let body = `SUMMARY\n${(params.summary || "No summary available.").replace(/<[^>]*>?/gm, '')}\n\n`;
+  const separator = "----------------------------------------";
+
+  let body = `SUMMARY\n${separator}\n${(params.summary || "No summary available.").replace(/<[^>]*>?/gm, '')}\n\n`;
 
   if (params.strengths?.length) {
-    body += `KEY STRENGTHS\n${params.strengths.map(s => `• ${s}`).join('\n')}\n\n`;
+    body += `KEY STRENGTHS\n${separator}\n${params.strengths.map(s => `• ${s}`).join('\n')}\n\n`;
   }
 
   if (params.weaknesses?.length) {
-    body += `AREAS FOR IMPROVEMENT\n${params.weaknesses.map(s => `• ${s}`).join('\n')}\n\n`;
+    body += `AREAS FOR IMPROVEMENT\n${separator}\n${params.weaknesses.map(s => `• ${s}`).join('\n')}\n\n`;
   }
 
   if (params.suggestions?.length) {
-    body += `RECOMMENDATIONS\n${params.suggestions.map(s => `• ${s}`).join('\n')}`;
+    body += `RECOMMENDATIONS\n${separator}\n${params.suggestions.map(s => `• ${s}`).join('\n')}`;
   }
 
   return body;
