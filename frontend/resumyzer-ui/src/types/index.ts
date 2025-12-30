@@ -1,6 +1,7 @@
 /**
  * Type definitions for RESUMYZER application
  */
+export * from './analysis';
 
 // API Request payload
 export interface AnalyzeResumeRequest {
