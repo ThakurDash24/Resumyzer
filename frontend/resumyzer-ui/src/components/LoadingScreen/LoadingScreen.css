@@ -12,15 +12,12 @@
     z-index: 9999;
     transition: opacity 0.8s ease-out, visibility 0.8s ease-out, background-color 0.3s ease;
     margin: 0;
-    /* Reset margin */
     padding: 0;
-    /* Reset padding */
 }
 
 /* Dark Mode Support via specific class */
 .loading-screen.dark-mode {
     background-color: #050505;
-    /* Match luxury background */
 }
 
 .loading-screen.dark-mode .loading-screen__title {
@@ -50,7 +47,6 @@
     font-size: 4rem;
     font-weight: 700;
     color: #0f172a;
-    /* Deep Navy */
     letter-spacing: 0.2em;
     margin: 0;
     opacity: 0;
@@ -77,16 +73,13 @@
 .loading-screen__gold-text {
     display: inline-block;
     color: #94a3b8;
-    /* Start matching subtitle */
     animation: fadeToGold 2s ease-out forwards 1.2s;
-    /* Start after subtitle appears */
 }
 
 .loading-screen__line {
     width: 0;
     height: 2px;
     background: linear-gradient(90deg, transparent, #d4af37, transparent);
-    /* Gold gradient */
     margin: 2rem auto 0;
     animation: expandLine 1.5s ease-out forwards 1s;
 }
@@ -108,5 +101,31 @@
     100% {
         color: #d4af37;
         text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .loading-screen__title {
+        font-size: 2.5rem;
+        letter-spacing: 0.15em;
+        padding: 0 20px;
+    }
+
+    .loading-screen__subtitle {
+        font-size: 0.8rem;
+        letter-spacing: 0.3em;
+    }
+}
+
+@media (max-width: 480px) {
+    .loading-screen__title {
+        font-size: 1.8rem;
+        letter-spacing: 0.1em;
+    }
+
+    .loading-screen__subtitle {
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
     }
 }

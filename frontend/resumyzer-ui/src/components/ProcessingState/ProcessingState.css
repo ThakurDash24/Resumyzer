@@ -29,15 +29,26 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    border: 3px solid rgba(148, 163, 184, 0.2);
+    border: 3px solid transparent;
     border-top-color: #d4af37;
     border-radius: 50%;
-    animation: spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
 }
 
 @keyframes spin {
-    to {
+    0% {
+        transform: rotate(0deg);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+    }
+
+    50% {
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.9);
+    }
+
+    100% {
         transform: rotate(360deg);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
     }
 }
 
@@ -65,7 +76,6 @@
     letter-spacing: 0.02em;
 }
 
-/* Message Container */
 .processing-state__messages {
     min-height: 60px;
     display: flex;
@@ -84,7 +94,6 @@
     animation: fadeInOut 3s ease-in-out;
 }
 
-/* Fade in and out animation */
 @keyframes fadeInOut {
     0% {
         opacity: 0;
@@ -107,7 +116,6 @@
     }
 }
 
-/* Progress Bar */
 .processing-state__progress {
     max-width: 400px;
     margin: 0 auto;
@@ -139,7 +147,6 @@
     text-transform: uppercase;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .processing-state {
         padding-top: 100px;
@@ -155,5 +162,32 @@
 
     .processing-state__message {
         font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .processing-state {
+        padding-top: 80px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .processing-state__container {
+        padding: 30px 16px;
+    }
+
+    .processing-state__title {
+        font-size: 1.3rem;
+        letter-spacing: 0.05em;
+    }
+
+    .processing-state__message {
+        font-size: 0.9rem;
+    }
+
+    .processing-state__spinner-container {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 30px;
     }
 }
