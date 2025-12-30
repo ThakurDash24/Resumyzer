@@ -55,7 +55,6 @@ const getScoreInterpretation = (score: number): ScoreInterpretation => {
 
 export const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ result, emailSent, onAnalyzeAnother }) => {
     const interpretation = getScoreInterpretation(result.ats_score);
-    const scoreAngle = (result.ats_score / 100) * 360;
 
     return (
         <div className="score-display">
