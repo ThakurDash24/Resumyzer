@@ -1,31 +1,29 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.routes import router as resume_router
+
+from app.api.routes import router
 
 app = FastAPI(
     title="ResumyZer API",
-    version="1.0.0",
-    description="AI-powered Resume ATS Analyzer"
+    version="1.0.0"
 )
 
-# CORS (adjust origins later)
+# ✅ CORS — CLEAN & SAFE
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "https://resumyzer-24.vercel.app",
-    "https://resumyzer-24-git-main-thakur-dashs-projects.vercel.app"
-]
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://resumyzer-ui.vercel.app",  # frontend prod
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Routes
+app.include_router(router, prefix="/api")
+
 @app.get("/")
-def root():
-    return {"message": "ResumyZer backend running"}
-
-app.include_router(resume_router, prefix="/api")
-
-@app.get("/health")
 def health_check():
-    return {"status": "ok"}
+    return {"status": "ResumyZer backend running"}

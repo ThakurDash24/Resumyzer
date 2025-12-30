@@ -1,6 +1,6 @@
 /**
  * Main App Component
- * Orchestrates the entire resume analysis flow
+ * Controls the resume analysis flow states
  */
 
 import { Layout } from './components/Layout/Layout';
@@ -13,17 +13,17 @@ import { useResumeAnalysis } from './hooks/useResumeAnalysis';
 function App() {
   const { state, result, error, analyze, reset } = useResumeAnalysis();
 
-  const handleSubmit = async (resume: File, email: string, jobRole?: string) => {
+  const handleSubmit = async (
+    resume: File,
+    email: string,
+    jobRole?: string
+  ) => {
     await analyze(resume, email, jobRole);
-  };
-
-  const handleReset = () => {
-    reset();
   };
 
   return (
     <Layout>
-      {/* Idle or Uploading State - Show Form */}
+      {/* Upload form */}
       {(state === 'idle' || state === 'uploading') && (
         <UploadForm
           onSubmit={handleSubmit}
@@ -31,17 +31,23 @@ function App() {
         />
       )}
 
-      {/* Processing State - Show Loading */}
+      {/* Processing */}
       {state === 'processing' && <ProcessingState />}
 
-      {/* Success State - Show Score */}
+      {/* Success */}
       {state === 'success' && result && (
-        <ScoreDisplay result={result} onAnalyzeAnother={handleReset} />
+        <ScoreDisplay
+          result={result}
+          onAnalyzeAnother={reset}
+        />
       )}
 
-      {/* Error State - Show Error */}
+      {/* Error */}
       {state === 'error' && error && (
-        <ErrorDisplay error={error} onRetry={handleReset} />
+        <ErrorDisplay
+          error={error}
+          onRetry={reset}
+        />
       )}
     </Layout>
   );
