@@ -157,7 +157,7 @@ resumyzer-ui/
 
 ### **API Endpoint**
 ```
-POST http://127.0.0.1:8000/api/analyze-resume
+POST https://resumyzer-24.onrender.com/api/analyze-resume
 
 Request (multipart/form-data):
 - resume: File (PDF)
@@ -382,7 +382,7 @@ npm run lint         # Run ESLint
 
 2. **Ensure Backend is Running**
    ```bash
-   # Backend should be at http://127.0.0.1:8000
+   # Backend should be at https://resumyzer-24.onrender.com
    # Test endpoint: POST /api/analyze-resume
    ```
 

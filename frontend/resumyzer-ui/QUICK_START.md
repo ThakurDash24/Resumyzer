@@ -36,7 +36,7 @@ src/
 
 ## 🔌 Backend Integration
 
-**Endpoint**: `POST http://127.0.0.1:8000/api/analyze-resume`
+**Endpoint**: `POST https://resumyzer-24.onrender.com/api/analyze-resume`
 
 **Request**:
 ```
@@ -71,7 +71,7 @@ Navigate to: **http://localhost:5173**
 ### 3. Verify Backend Connection
 Make sure your FastAPI backend is running at:
 ```
-http://127.0.0.1:8000
+https://resumyzer-24.onrender.com
 ```
 
 ## 📝 Key Files to Know
@@ -137,7 +137,7 @@ Output: `dist/` folder
 ## 🐛 Troubleshooting
 
 ### "No response from server"
-✅ Check backend is running at `http://127.0.0.1:8000`
+✅ Check backend is running at `https://resumyzer-24.onrender.com`
 ✅ Verify CORS is enabled on backend
 ✅ Check browser console for errors
 

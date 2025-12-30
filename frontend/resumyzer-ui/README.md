@@ -48,7 +48,7 @@ src/
 ### Prerequisites
 - Node.js 18+ 
 - npm or yarn
-- Backend API running at `http://127.0.0.1:8000`
+- Backend API running at `https://resumyzer-24.onrender.com`
 
 ### Installation
 
@@ -70,7 +70,7 @@ npm run preview
 
 The API base URL is configured in `src/services/api.ts`:
 ```typescript
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://resumyzer-24.onrender.com';
 ```
 
 To change the backend URL, update this constant or create an environment variable.
@@ -133,7 +133,7 @@ All design tokens are centralized in `src/styles/variables.css`:
 ### Backend Endpoint
 
 ```
-POST http://127.0.0.1:8000/api/analyze-resume
+POST https://resumyzer-24.onrender.com/api/analyze-resume
 Content-Type: multipart/form-data
 
 Fields:
@@ -269,13 +269,13 @@ VITE_API_BASE_URL=http://your-backend-url.com
 
 Update `api.ts`:
 ```typescript
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://resumyzer-24.onrender.com';
 ```
 
 ## 🐛 Troubleshooting
 
 ### "No response from server"
-- Ensure backend is running at `http://127.0.0.1:8000`
+- Ensure backend is running at `https://resumyzer-24.onrender.com`
 - Check CORS configuration on backend
 - Verify network connectivity
 

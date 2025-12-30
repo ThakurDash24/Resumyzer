@@ -7,7 +7,7 @@ import axios, { AxiosError } from 'axios';
 import type { AnalyzeResumeRequest, AnalyzeResumeResponse, ApiError } from '../types';
 
 // Base API configuration
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://resumyzer-24.onrender.com';
 const API_TIMEOUT = 60000; // 60 seconds for file upload + processing
 
 // Create axios instance with default config
