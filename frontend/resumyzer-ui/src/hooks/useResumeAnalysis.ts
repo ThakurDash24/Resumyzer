@@ -66,9 +66,9 @@ export function useResumeAnalysis() {
           atsScore: analysis.ats_score,
           // Backend returns 'summary' in the top-level response, but internal type has 'overall_summary'
           summary: (analysis as any).summary || analysis.overall_summary,
-          strengths: analysis.strengths,
-          weaknesses: analysis.missing_or_weak_areas,
-          suggestions: analysis.improvement_suggestions,
+          strengths: (analysis as any).strengths || analysis.strengths,
+          weaknesses: (analysis as any).missing_or_weak_areas || analysis.missing_or_weak_areas,
+          suggestions: (analysis as any).improvement_suggestions || analysis.improvement_suggestions,
         })
           .then(() => {
             console.log("Email sent successfully to:", targetEmail);

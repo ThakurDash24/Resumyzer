@@ -70,6 +70,9 @@ async def analyze_resume(
     return {
         "ats_score": analysis_result["ats_score"],
         "summary": analysis_result.get("overall_summary") or "Analysis completed successfully. Please check your dashboard for details.",
+        "strengths": analysis_result.get("strengths", []),
+        "missing_or_weak_areas": analysis_result.get("missing_or_weak_areas", []),
+        "improvement_suggestions": analysis_result.get("improvement_suggestions", []),
         "email_status": "handled_by_frontend",
         "extracted_email": final_email
     }
