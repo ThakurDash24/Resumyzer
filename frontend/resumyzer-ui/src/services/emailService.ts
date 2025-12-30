@@ -29,6 +29,9 @@ export const sendAnalysisEmail = async (params: {
     );
   } catch (error) {
     console.error('EmailJS Error:', error);
+    if (error instanceof Error) {
+      console.error('EmailJS Error Details:', error.message);
+    }
     throw error;
   }
 };

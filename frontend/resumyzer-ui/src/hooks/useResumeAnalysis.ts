@@ -55,15 +55,19 @@ export function useResumeAnalysis() {
       setState('success');
 
       // ✅ EMAIL (FRONTEND-ONLY, NON-BLOCKING)
+      // We don't await this to keep UI snappy, but we catch errors
       sendAnalysisEmail({
         email,
         phone,
         atsScore: analysis.ats_score,
         summary: analysis.overall_summary,
       })
-        .then(() => setEmailSent(true))
-        .catch(() => {
-          console.warn('Email failed but analysis succeeded');
+        .then(() => {
+          console.log("Email sent successfully!");
+          setEmailSent(true);
+        })
+        .catch((err) => {
+          console.warn('Email failed but analysis succeeded', err);
         });
 
     } catch (err) {
