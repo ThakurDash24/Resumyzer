@@ -8,7 +8,7 @@ export const sendAnalysisEmail = async (params: {
   email: string;
   phone?: string;
   atsScore: number;
-  summary: string;
+  overall_summary: string;
   strengths?: string[];
   weaknesses?: string[];
   suggestions?: string[];
@@ -19,7 +19,7 @@ export const sendAnalysisEmail = async (params: {
   }
 
   try {
-    console.log("Sending email with report content:", params.summary);
+    console.log("Sending email with report content:", params.overall_summary);
     await emailjs.send(
       SERVICE_ID,
       TEMPLATE_ID,
@@ -41,7 +41,7 @@ export const sendAnalysisEmail = async (params: {
 };
 
 const formatEmailBody = (params: {
-  summary: string;
+  overall_summary: string;
   strengths?: string[];
   weaknesses?: string[];
   suggestions?: string[];
@@ -67,7 +67,7 @@ const formatEmailBody = (params: {
   // Summary
   html += `<div style="${sectionStyle}">`;
   html += `<h2 style="${headerStyle}">SUMMARY</h2>`;
-  html += `<p style="${textStyle}">${formatText(params.summary || "No summary available.")}</p>`;
+  html += `<p style="${textStyle}">${formatText(params.overall_summary || "No summary available.")}</p>`;
   html += `</div>`;
 
   // Strengths
