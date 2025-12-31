@@ -54,16 +54,28 @@ const getScoreInterpretation = (score: number): ScoreInterpretation => {
 };
 
 export const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ result, emailSent, onAnalyzeAnother }) => {
-    const interpretation = getScoreInterpretation(result.ats_score);
+    let interpretation = getScoreInterpretation(result.ats_score);
+
+    if (result.is_fallback) {
+        interpretation = {
+            title: 'SERVERS BUSY',
+            description: 'This is not your proper and exact score. Our servers are currently busy processing high traffic. Please try again later.',
+            color: '#ef4444', // Red for alert
+        };
+    }
 
     return (
         <div className="score-display">
             <div className="score-display__card glass-panel">
                 <div className="score-display__header">
-                    <h2 className="score-display__title">ANALYSIS COMPLETE</h2>
+                    <h2 className="score-display__title">
+                        {result.is_fallback ? 'SERVER BUSY' : 'ANALYSIS COMPLETE'}
+                    </h2>
                     <div className="score-display__divider"></div>
                     <p className="score-display__subtitle">
-                        Your resume has been successfully analyzed
+                        {result.is_fallback
+                            ? 'We could not complete the analysis at this time'
+                            : 'Your resume has been successfully analyzed'}
                     </p>
                 </div>
 

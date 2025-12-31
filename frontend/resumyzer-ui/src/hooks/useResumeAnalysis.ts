@@ -82,9 +82,25 @@ export function useResumeAnalysis() {
       }
 
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'No response from server. Please try again.';
-      setError(errorMessage);
-      setState('error');
+      console.error("Analysis failed:", err);
+      
+      // Fallback result for server busy/crash scenarios
+      const fallbackResult: AnalysisResult = {
+        ats_score: 0,
+        overall_summary: "Our servers are currently experiencing high traffic or are temporarily unavailable.",
+        strengths: [],
+        missing_or_weak_areas: [],
+        ats_keyword_gaps: [],
+        improvement_suggestions: [],
+        structure_feedback: [],
+        final_recommendation: "Please try again later.",
+        is_fallback: true,
+        extracted_email: email
+      };
+
+      setResult(fallbackResult);
+      setState('success');
+      // We do NOT set error state here, so the UI shows the ScoreDisplay with the fallback message
     }
   };
 
