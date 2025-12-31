@@ -4,7 +4,7 @@ uvicorn[standard]==0.29.0
 python-multipart==0.0.9
 pdfplumber==0.11.4
 
-google-generativeai==0.5.2
+google-generativeai>=0.8.3
 
 pydantic==2.6.4
 pydantic-settings==2.2.1
