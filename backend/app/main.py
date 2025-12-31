@@ -18,6 +18,7 @@ app.add_middleware(
         "http://localhost:3000",
         "https://resumyzer-ui.vercel.app",
         "https://resumyzer-24.vercel.app",
+        "https://resumyzer24.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
