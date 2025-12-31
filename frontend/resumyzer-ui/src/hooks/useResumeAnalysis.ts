@@ -79,7 +79,7 @@ export function useResumeAnalysis() {
             email: targetEmail,
             phone,
             atsScore: analysis.ats_score,
-            summary: analysis.overall_summary,
+            overall_summary: analysis.overall_summary,
             strengths: analysis.strengths,
             weaknesses: analysis.missing_or_weak_areas,
             suggestions: analysis.improvement_suggestions,
