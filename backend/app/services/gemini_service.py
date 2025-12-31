@@ -7,8 +7,8 @@ from app.core.prompt import build_resume_prompt
 # Configure Gemini
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
-# Use Gemini 2.5 Flash ONLY (as requested)
-model = genai.GenerativeModel("models/gemini-2.5-flash")
+# Use Gemini 1.5 Flash (Higher Free Tier Limits: 15 RPM, 1500 RPD)
+model = genai.GenerativeModel("models/gemini-1.5-flash")
 
 
 def analyze_resume_with_gemini(resume_text: str, job_role: str | None) -> dict:
