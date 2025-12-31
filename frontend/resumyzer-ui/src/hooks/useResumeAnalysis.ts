@@ -43,47 +43,65 @@ export function useResumeAnalysis() {
 
       const data = await response.json();
 
-      // ❌ Hard failure only if analysis is missing
-      if (!response.ok && !data?.analysis) {
+      if (!response.ok) {
         throw new Error(data?.detail || 'Analysis failed');
       }
 
-      const analysis: AnalysisResult = data.analysis ?? data;
+      // Handle both nested 'analysis' (old) and flat (new) structures
+      const rawAnalysis = data.analysis || data;
+
+      // Explicitly map to AnalysisResult to ensure all fields exist
+      const analysis: AnalysisResult = {
+        ats_score: rawAnalysis.ats_score ?? 0,
+        overall_summary: rawAnalysis.overall_summary || rawAnalysis.summary || "No summary available.",
+        strengths: rawAnalysis.strengths || [],
+        missing_or_weak_areas: rawAnalysis.missing_or_weak_areas || [],
+        ats_keyword_gaps: rawAnalysis.ats_keyword_gaps || [],
+        improvement_suggestions: rawAnalysis.improvement_suggestions || [],
+        structure_feedback: rawAnalysis.structure_feedback || [],
+        final_recommendation: rawAnalysis.final_recommendation || "Check detailed feedback.",
+        is_fallback: rawAnalysis.is_fallback || false,
+        extracted_email: rawAnalysis.extracted_email
+      };
 
       // ✅ UI SUCCESS
       setResult(analysis);
       setState('success');
 
       // ✅ EMAIL (FRONTEND-ONLY, NON-BLOCKING)
-      // Determine target email: user input > extracted from resume
-      const targetEmail = email || analysis.extracted_email;
+      try {
+        const targetEmail = email || analysis.extracted_email;
 
-      if (targetEmail) {
-        // We don't await this to keep UI snappy, but we catch errors
-        sendAnalysisEmail({
-          email: targetEmail,
-          phone,
-          atsScore: analysis.ats_score,
-          // Backend returns 'summary' in the top-level response, but internal type has 'overall_summary'
-          summary: (analysis as any).summary || analysis.overall_summary,
-          strengths: (analysis as any).strengths || analysis.strengths,
-          weaknesses: (analysis as any).missing_or_weak_areas || analysis.missing_or_weak_areas,
-          suggestions: (analysis as any).improvement_suggestions || analysis.improvement_suggestions,
-        })
-          .then(() => {
-            console.log("Email sent successfully to:", targetEmail);
-            setEmailSent(true);
+        if (targetEmail) {
+          console.log("Attempting to send email to:", targetEmail);
+          // We don't await this to keep UI snappy, but we catch errors
+          sendAnalysisEmail({
+            email: targetEmail,
+            phone,
+            atsScore: analysis.ats_score,
+            summary: analysis.overall_summary,
+            strengths: analysis.strengths,
+            weaknesses: analysis.missing_or_weak_areas,
+            suggestions: analysis.improvement_suggestions,
           })
-          .catch((err) => {
-            console.warn('Email failed but analysis succeeded', err);
-          });
-      } else {
-        console.warn('No email provided or extracted. Skipping email report.');
+            .then(() => {
+              console.log("Email sent successfully to:", targetEmail);
+              setEmailSent(true);
+            })
+            .catch((err) => {
+              console.warn('Email failed but analysis succeeded', err);
+            });
+        } else {
+          console.warn('No email provided or extracted. Skipping email report.');
+        }
+      } catch (emailErr) {
+        console.error("Critical error initiating email service:", emailErr);
+        // Do not fail the analysis if email fails
       }
 
     } catch (err) {
       console.error("Analysis failed:", err);
-      
+
       // Fallback result for server busy/crash scenarios
       const fallbackResult: AnalysisResult = {
         ats_score: 0,
