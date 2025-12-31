@@ -70,5 +70,6 @@ def analyze_resume_with_gemini(resume_text: str, job_role: str | None) -> dict:
         "ats_keyword_gaps": [],
         "improvement_suggestions": ["Please retry analysis later."],
         "structure_feedback": [],
-        "final_recommendation": "Analysis incomplete due to AI service unavailability."
+        "final_recommendation": "Analysis incomplete due to AI service unavailability.",
+        "is_fallback": True
     }

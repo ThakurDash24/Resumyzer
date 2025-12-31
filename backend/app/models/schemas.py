@@ -8,3 +8,4 @@ class ResumeAnalysisResponse(BaseModel):
     improvement_suggestions: list[str] = []
     email_status: str
     extracted_email: str | None = None
+    is_fallback: bool = False

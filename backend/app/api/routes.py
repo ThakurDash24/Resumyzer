@@ -74,5 +74,6 @@ async def analyze_resume(
         "missing_or_weak_areas": analysis_result.get("missing_or_weak_areas", []),
         "improvement_suggestions": analysis_result.get("improvement_suggestions", []),
         "email_status": "handled_by_frontend",
-        "extracted_email": final_email
+        "extracted_email": final_email,
+        "is_fallback": analysis_result.get("is_fallback", False)
     }
