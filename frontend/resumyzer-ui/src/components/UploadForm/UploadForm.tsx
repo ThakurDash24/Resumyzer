@@ -15,13 +15,21 @@ interface UploadFormProps {
 
 const JOB_ROLES = [
     'Software Engineer',
+    'Full Stack Developer',
+    'Frontend Developer',
+    'Backend Developer',
+    'DevOps Engineer',
+    'Cloud Engineer',
     'Data Scientist',
+    'Machine Learning Engineer',
     'Product Manager',
     'UX/UI Designer',
+    'QA Engineer',
+    'System Administrator',
     'Marketing Manager',
     'Business Analyst',
-    'DevOps Engineer',
     'Sales Representative',
+    'HR Specialist',
     'Other',
 ];
 
@@ -30,6 +38,7 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [jobRole, setJobRole] = useState('');
+    const [customRole, setCustomRole] = useState('');
     const [errors, setErrors] = useState<FormErrors>({});
 
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -82,8 +91,11 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
+        // Determine final role
+        const finalRole = jobRole === 'Other' ? customRole : jobRole;
+
         // Validate form
-        const validationErrors = validateForm(resume, email, jobRole);
+        const validationErrors = validateForm(resume, email, finalRole);
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -92,7 +104,7 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
 
         // Submit form
         if (resume) {
-            onSubmit(resume, email, phone, jobRole || undefined);
+            onSubmit(resume, email, phone, finalRole || undefined);
         }
     };
 
@@ -238,6 +250,22 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
                                     ))}
                                 </select>
                             </div>
+                            {jobRole === 'Other' && (
+                                <div style={{ marginTop: '1rem' }}>
+                                    <label htmlFor="custom-role" className="form-label">
+                                        Specify Role
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="custom-role"
+                                        value={customRole}
+                                        onChange={(e) => setCustomRole(e.target.value)}
+                                        placeholder="e.g. AI Researcher"
+                                        className="form-input"
+                                        disabled={isDisabled}
+                                    />
+                                </div>
+                            )}
                             <span className="form-hint">
                                 Helps us provide role-specific recommendations.
                             </span>
