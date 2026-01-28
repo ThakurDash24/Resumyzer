@@ -115,9 +115,9 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
     return (
         <div className="upload-page">
             <header className="upload-page__header">
-                <h2 className="upload-page__title">Analyze Your Resume</h2>
+                <h2 className="upload-page__title">ATS Readiness & Resume–Job Description Compatibility Analyzer</h2>
                 <p className="upload-page__subtitle">
-                    Unlock your potential with AI-driven insights.
+                    Evaluate how your resume aligns with ATS-style screening and recruiter review criteria.
                 </p>
             </header>
 
@@ -280,7 +280,7 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isDisabled = f
                         className="submit-btn btn-luxury"
                         disabled={isDisabled || Object.keys(errors).length > 0}
                     >
-                        {isDisabled ? 'Analyzing...' : 'Analyze Resume'}
+                        {isDisabled ? 'Analyzing...' : 'Analyze Resume Compatibility'}
                     </button>
                 </div>
 

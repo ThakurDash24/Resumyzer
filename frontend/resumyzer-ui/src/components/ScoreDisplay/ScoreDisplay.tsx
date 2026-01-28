@@ -59,7 +59,7 @@ export const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ result, emailSent, o
     if (result.is_fallback) {
         interpretation = {
             title: 'SERVERS BUSY',
-            description: 'This is not your proper and exact score. Our servers are currently busy processing high traffic. Please try again later.',
+            description: 'This is not your proper and exact analysis result. Our servers are currently busy processing high traffic. Please try again later.',
             color: '#ef4444', // Red for alert
         };
     }
@@ -111,9 +111,13 @@ export const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ result, emailSent, o
                             <div className="score-display__score-value">
                                 {result.ats_score}
                             </div>
-                            <div className="score-display__score-label">ATS SCORE</div>
+                            <div className="score-display__score-label">ATS READINESS INDEX</div>
                         </div>
                     </div>
+                </div>
+
+                <div className="score-display__helper-text" style={{ textAlign: 'center', fontSize: '0.8rem', color: '#64748b', marginTop: '-1rem', marginBottom: '1.5rem', maxWidth: '80%', margin: '-1rem auto 1.5rem' }}>
+                    Based on common ATS screening signals. Not a company-specific ATS outcome.
                 </div>
 
                 {/* Interpretation */}

@@ -27,7 +27,7 @@ export const PROCESSING_MESSAGES: ProcessingMessage[] = [
     },
     {
         id: 5,
-        text: 'Calculating your score...',
+        text: 'Calculating readiness index...',
         duration: 2000,
     },
     {

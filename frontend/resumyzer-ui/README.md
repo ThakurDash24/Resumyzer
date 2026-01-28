@@ -1,10 +1,21 @@
 # RESUMYZER Frontend
 
-Production-ready React + TypeScript frontend for ATS resume analysis.
+Production-ready React + TypeScript frontend for ATS Readiness & Compatibility analysis.
 
 ## 🎯 Overview
 
-RESUMYZER is a professional web application that analyzes resumes for ATS (Applicant Tracking System) compatibility. Users upload their PDF resume, receive an instant ATS score, and get a detailed report via email.
+RESUMYZER is a professional web application that analyzes resumes for ATS (Applicant Tracking System) compatibility. Users upload their PDF resume, receive an instant ATS Readiness Index, and get a detailed report via email.
+
+## ⚠️ What Resumyzer Does & Does NOT Do
+
+### What Resumyzer Does
+- Analyzes resume parsing quality
+- Measures resume–JD alignment
+- Identifies screening risks before human review
+
+### What Resumyzer Does NOT Do
+- Predict company-specific ATS decisions
+- Emulate proprietary ATS systems
 
 ## 🏗️ Architecture
 
@@ -91,8 +102,8 @@ To change the backend URL, update this constant or create an environment variabl
 - Calm, professional animations
 
 ### 3. **Score Display**
-- Circular ATS score visualization
-- Dynamic score interpretation
+- Circular ATS Readiness visualization
+- Dynamic readiness interpretation
 - Email confirmation status
 - "Analyze Another" action
 
@@ -146,7 +157,7 @@ Fields:
 
 ```typescript
 {
-  ats_score: number;        // 0-100
+  ats_score: number;        // 0-100 (Readiness Index) (Readiness Index)
   email_sent: boolean;      // Email delivery status
   message: string;          // Success message
   analysis_id?: string;     // Optional analysis ID
